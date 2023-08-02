@@ -6,7 +6,7 @@ try{
   return response.data;
   }catch(error){
     console.log("Error when trying to login", error)
-    return {statusCode: 400}
+    return null;
   }
 }
 

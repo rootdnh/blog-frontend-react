@@ -1,10 +1,10 @@
-import { useEffect, useState, createContext } from "react";
+import { useState, createContext } from "react";
 import { IAuthProvider, IUser, IContext } from "./types.authprovider";
-import { LoginRequest } from "../../utils/loginRequest";
+import LoginRequest  from "../../utils/loginRequest";
 
 const AuthContext = createContext<IContext>({} as IContext);
 
-function authProvider({children}: IAuthProvider) {
+function AuthProvider({children}: IAuthProvider) {
   const [user, setUser] = useState<IUser | null>(null);
 
   async function authenticate(email: string, password: string){
@@ -12,7 +12,7 @@ function authProvider({children}: IAuthProvider) {
     setUser(response);
   }
   async function logout(){
-
+    setUser(null);
   }
 
   return (
@@ -22,4 +22,4 @@ function authProvider({children}: IAuthProvider) {
   );
 }
 
-export default authProvider;
+export default AuthProvider;
