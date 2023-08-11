@@ -1,17 +1,37 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useContext, useEffect } from "react";
 import { IAuthProvider, IUser, IContext } from "./types.authprovider";
 import LoginRequest  from "../../utils/loginRequest";
-
+import { getLocalStorage, setLocalStorage } from "../../utils/localStorageManage";
 const AuthContext = createContext<IContext>({} as IContext);
 
-function AuthProvider({children}: IAuthProvider) {
+export function AuthProvider({children}: IAuthProvider): React.JSX.Element {
   const [user, setUser] = useState<IUser | null>(null);
+
+  useEffect(()=>{
+    const data = getLocalStorage("@utk");
+    if(data) setUser({...data});
+    }, [])
 
   async function authenticate(email: string, password: string){
     const response = await LoginRequest(email, password);
-    setUser(response);
+    const avatar = response?.avatar?.url || null;
+    if(response) {
+      setUser({...response, avatar});
+      const toSaveInLocal = {
+        id: response.id,
+        email: response.email,
+        token: response.token,
+        avatar
+      }
+      setLocalStorage("@utk", toSaveInLocal);
+      return true;
+    }else{
+      return false
+    }
   }
+
   async function logout(){
+    setLocalStorage("@utk",{});
     setUser(null);
   }
 
@@ -22,4 +42,7 @@ function AuthProvider({children}: IAuthProvider) {
   );
 }
 
-export default AuthProvider;
+export function useAuth(){
+  const context = useContext(AuthContext);
+  return context;
+}

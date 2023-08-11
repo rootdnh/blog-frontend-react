@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import { IUser } from "../../context/AuthProvider/types.authprovider";
-import LoginRequest from "../../utils/loginRequest";
-import { setLocalStorage } from "../../utils/localStorageManage";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider/authProvider";
+import Button from "react-bootstrap/Button";
+import { Container, Form } from "react-bootstrap";
+import 'animate.css/animate.css'; 
 
 interface IAlert {
  type: string;
@@ -15,61 +17,85 @@ export function Login() {
  const [user, setUser] = useState<IUser | null>({} as IUser);
  const [showAlert, setShowAlert] = useState<IAlert | null>({} as IAlert);
  const navigate = useNavigate();
+ const { authenticate, email, token, avatar } = useAuth();
 
  const handleForm = async (event: React.FormEvent) => {
   event.preventDefault();
 
   if (user?.email && user?.password) {
-   const data = await LoginRequest(user?.email, user?.password);
+   const isAuth = await authenticate(user?.email, user?.password);
+    handleAuthentication(isAuth);
+  }
+ };
 
-   if (!data) {
+ const handleAuthentication = (isAuth: boolean)=>{
+  if (!isAuth) {
     setShowAlert({
      type: "warning",
      isOpen: true,
      message: "Email ou senha estão incorretos",
     });
-   } else {
-    const { token } = data;
-    const isStored = setLocalStorage("@utk", token);
-
-    if (isStored) {
-     setShowAlert({
+   } else {     
+    setShowAlert({
       type: "success",
       isOpen: true,
       message: "Logado com sucesso!",
      });
-     navigate("/home");
-    }
+     setTimeout(()=> navigate("/home"), 1000);
+     
+    
    }
+ }
+
+ useEffect(() => {
+  if (showAlert?.isOpen) {
+   const timer = setTimeout(() => {
+    setShowAlert({ ...showAlert, isOpen: false });
+   }, 1500);
+   return () => clearTimeout(timer);
   }
- };
+ }, [showAlert]);
 
  return (
-  <form onSubmit={handleForm}>
-   <label htmlFor="email">email</label>
-   <input
-    type="text"
+  <Container className="d-flex flex-column justify-content-center align-items-center mb-4">
+   <Form 
+    style={{marginTop: "100px"}}
+    className="d-flex flex-column justify-content-center align-items-center "
+    onSubmit={handleForm}
+   > 
+   <div className="mb-3">
+    <h1>Login</h1>
+   </div>
+    <div className="mb-3">
+    <Form.Control 
     id="email"
-    placeholder="email"
-    value={user?.email ?? ""}
+    type="email" 
+    placeholder="Enter email"
+    value={user?.email ?? ""} 
     onChange={(e) => {
-     setUser({ ...user, email: e.target.value });
-    }}
-   />
-   <label htmlFor="pass">password</label>
-   <input
-    type="text"
-    id="pass"
-    placeholder="password"
-    value={user?.password ?? ""}
-    onChange={(e) => {
-     setUser({ ...user, password: e.target.value });
-    }}
-   />
-
-   <button type="submit">Send</button>
+      setUser({ ...user, email: e.target.value });
+     }}
+     required
+    />
+    </div>
+    <div className="mb-3">
+     <Form.Control
+      type="password"
+      id="pass"
+      placeholder="password"
+      value={user?.password ?? ""}
+      onChange={(e) => {
+       setUser({ ...user, password: e.target.value });
+      }}
+      required
+     />
+    </div>
+    <Button as="input" type="submit" className="w-100" value="Enviar" />
+   </Form>
    {showAlert?.isOpen && (
     <Alert
+     style={{maxWidth: "400px"}}
+     className="m-3 animate__animated  animate__fadeIn "
      variant={showAlert?.type}
      onClose={() => setShowAlert({ ...showAlert, isOpen: false })}
      dismissible
@@ -77,6 +103,6 @@ export function Login() {
      {showAlert?.message}
     </Alert>
    )}
-  </form>
+  </Container>
  );
 }

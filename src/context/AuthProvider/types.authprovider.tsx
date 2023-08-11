@@ -4,11 +4,12 @@ export interface IUser {
   id?: string;
   email?: string;
   token?: string;
-  password?: string
+  password?: string;
+  avatar?: string | null
 }
  
 export interface IContext extends IUser{
-  authenticate: (email: string, password: string)=> Promise<void>;
+  authenticate: (email: string, password: string)=> Promise<boolean>;
   logout: ()=> void
 }
 
