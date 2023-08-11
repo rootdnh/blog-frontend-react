@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import LoginRequest from "./utils/loginRequest";
-import { IUser } from "./context/AuthProvider/types.authprovider";
+import { IUser } from "./@types/authprovider.types";
 import { Link, Outlet } from "react-router-dom";
 import Header from "./components/header/header";
 import { Container } from "react-bootstrap";

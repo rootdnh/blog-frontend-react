@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Alert from "react-bootstrap/Alert";
-import { IUser } from "../../context/AuthProvider/types.authprovider";
+import { IUser } from "../../@types/authprovider.types";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider/authProvider";
 import Button from "react-bootstrap/Button";
@@ -41,7 +41,7 @@ export function Login() {
       isOpen: true,
       message: "Logado com sucesso!",
      });
-     setTimeout(()=> navigate("/home"), 1000);
+     setTimeout(()=> navigate("/"), 1000);
      
     
    }

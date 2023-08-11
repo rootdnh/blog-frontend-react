@@ -1,3 +1,4 @@
+import { IUser } from "../@types/authprovider.types";
 
 export function setLocalStorage(key: string, data: object){
   try {
@@ -9,10 +10,10 @@ export function setLocalStorage(key: string, data: object){
   }
  };
 
- export function getLocalStorage(key: string): object | null{
+ export function getLocalStorage(key: string): IUser | null{
   try {
    const data = localStorage.getItem(key);
-   if(data) return JSON.parse(data);
+   if(data) return JSON.parse(data) ;
   } catch (error) {
    console.error("Error when trying to get a data in local storage");
   }
