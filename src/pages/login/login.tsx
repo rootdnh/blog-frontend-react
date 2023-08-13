@@ -17,7 +17,7 @@ export function Login() {
  const [user, setUser] = useState<IUser | null>({} as IUser);
  const [showAlert, setShowAlert] = useState<IAlert | null>({} as IAlert);
  const navigate = useNavigate();
- const { authenticate, email, token, avatar } = useAuth();
+ const { authenticate} = useAuth();
 
  const handleForm = async (event: React.FormEvent) => {
   event.preventDefault();
@@ -42,8 +42,6 @@ export function Login() {
       message: "Logado com sucesso!",
      });
      setTimeout(()=> navigate("/"), 1000);
-     
-    
    }
  }
 
