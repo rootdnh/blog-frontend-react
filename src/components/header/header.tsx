@@ -18,7 +18,7 @@ function Header() {
   const {email, avatar, logout} = useAuth();
   
  return (
-  <Navbar expand="lg"   data-bs-theme="dark" style={{backgroundColor: "rgb(36, 41, 47)"}}>
+  <Navbar expand="lg" data-bs-theme="dark" style={{backgroundColor: "rgb(36, 41, 47)"}}>
   <Container >
    <Navbar.Brand  href="/">BLOG</Navbar.Brand>
    <Navbar.Toggle aria-controls="basic-navbar-nav" />

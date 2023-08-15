@@ -17,7 +17,7 @@ export function Login() {
  const [user, setUser] = useState<IUser | null>({} as IUser);
  const [showAlert, setShowAlert] = useState<IAlert | null>({} as IAlert);
  const navigate = useNavigate();
- const { authenticate} = useAuth();
+ const { authenticate, isAuthenticated} = useAuth();
 
  const handleForm = async (event: React.FormEvent) => {
   event.preventDefault();
@@ -44,6 +44,7 @@ export function Login() {
      setTimeout(()=> navigate("/"), 1000);
    }
  }
+
 
  useEffect(() => {
   if (showAlert?.isOpen) {
@@ -88,7 +89,7 @@ export function Login() {
       required
      />
     </div>
-    <Button as="input" type="submit" className="w-100" value="Enviar" />
+    <Button as="input" type="submit" className="w-100" value="Entrar" />
    </Form>
    {showAlert?.isOpen && (
     <Alert

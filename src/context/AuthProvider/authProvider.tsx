@@ -35,8 +35,12 @@ export function AuthProvider({children}: IAuthProvider): React.JSX.Element {
     setUser(null);
   }
 
+  function isAuthenticated(): boolean{
+    return (user?.id) ?  true : false;
+  }
+
   return (
-    <AuthContext.Provider value={{...user, authenticate, logout}}>
+    <AuthContext.Provider value={{...user, authenticate, logout, isAuthenticated}}>
       {children}
     </AuthContext.Provider>
   );
