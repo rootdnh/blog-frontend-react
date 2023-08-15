@@ -1,6 +1,6 @@
 import { useState, createContext, useContext, useEffect } from "react";
 import { IAuthProvider, IUser, IContext } from "../../@types/authprovider.types";
-import LoginRequest  from "../../utils/loginRequest";
+import LoginRequest  from "../../services/requests/loginRequest";
 import { getLocalStorage, setLocalStorage } from "../../utils/localStorageManage";
 const AuthContext = createContext<IContext>({} as IContext);
 

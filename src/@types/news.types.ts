@@ -6,5 +6,6 @@ export interface INews{
   title?: string;
   content?: string;
   idUser?: string;
-  category: ICategory
+  idCategory?: number;
+  category?: ICategory
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import LoginRequest from "./utils/loginRequest";
+import LoginRequest from "./services/requests/loginRequest";
 import { IUser } from "./@types/authprovider.types";
 import { Link, Outlet } from "react-router-dom";
 import Header from "./components/header/header";

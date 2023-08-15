@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { INews } from "../../@types/news.types";
 import { api } from "../../services/api";
-import Spinner from 'react-bootstrap/Spinner';
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
@@ -31,7 +30,7 @@ function Home() {
       controller.current.abort();
     }
   }
-}, [bringNews]);
+}, []);
 
  return (
   <>
@@ -43,7 +42,7 @@ function Home() {
      <p>{data.content}</p>
     </>
     )
-   ) : <h2>Nenhuma notícia encontrado :)</h2>
+   ) : <h2>Nenhuma notícia encontrada :)</h2>
    }
    {isConnected && <span>Não conectado ao servidor <Button size="sm" variant="dark" onClick={()=> window.location.reload()}>Recarregar</Button></span>}
    {isAuthorized && <span>Não autorizado! <Link to={"/login"}>Entrar?</Link></span>}
