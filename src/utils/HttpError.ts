@@ -5,6 +5,7 @@ class HttpError extends Error {
     super(message);
     this.status = status;
   }
+  
 }
 
 export default HttpError;

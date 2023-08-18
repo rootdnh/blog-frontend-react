@@ -1,5 +1,7 @@
 export interface ICategory {
-  name?: string
+  id?: number;
+  name?: string;
+  title?: string;
 }
 
 export interface INews{
@@ -7,5 +9,6 @@ export interface INews{
   content?: string;
   idUser?: string;
   idCategory?: number;
+  token?: string;
   category?: ICategory
 }
