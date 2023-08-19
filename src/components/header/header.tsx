@@ -27,8 +27,7 @@ function Header() {
      <Link style={LinkStyle} to={"/"}>Home</Link>
      <Link style={LinkStyle} to={"/create-news"}>Criar notícia</Link>
      <Link style={LinkStyle} className="d-lg-none" to={"/settings"}>Configurações</Link>
-     {
-       email ? <Link style={LinkStyle} onClick={logout} to={"/"}>Sair</Link> :
+     {email ? <Link style={LinkStyle} onClick={logout} to={"/"}>Sair</Link> :
        <Link style={LinkStyle} to={"/login"}>Entrar</Link>
       }
     </Nav>

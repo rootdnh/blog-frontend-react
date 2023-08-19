@@ -3,13 +3,20 @@ import { IAuthProvider, IUser, IContext } from "../../@types/authprovider.types"
 import LoginRequest  from "../../services/requests/loginRequest";
 import { getLocalStorage, setLocalStorage } from "../../utils/localStorageManage";
 const AuthContext = createContext<IContext>({} as IContext);
+import { api } from "../../services/api";
 
 export function AuthProvider({children}: IAuthProvider): React.JSX.Element {
   const [user, setUser] = useState<IUser | null>(null);
 
   useEffect(()=>{
     const data = getLocalStorage("@utk");
-    if(data) setUser({...data});
+    api.get("/auth-verify")
+    .then((response)=>{
+      if(response) setUser({...data});
+    })
+    .catch((error)=>{
+      console.error(error);
+    });
     }, [])
 
   async function authenticate(email: string, password: string){

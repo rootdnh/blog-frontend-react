@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { INews } from "../../@types/news.types";
 import { api } from "../../services/api";
-import { Button, Spinner } from "react-bootstrap";
+import { Button, Container, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
@@ -39,20 +39,19 @@ function Home() {
 }, []);
 
  return (
-  <>
- 
+  <Container>
    {news?.length > 0 && (
     news.map((data) => 
     <div key={data.title}>
-     <h5 >{data.title}</h5>
-     <p >{data.content}</p>
+     <h5>{data.title}</h5>
+     <p>{data.content}</p>
     </div>
     ))
     }
    {isLoading && <Spinner size="sm"/>}
-   {httpErrors.isUnauthorized && <span>Não autorizado<Button size="sm" variant="dark" onClick={()=> navigate("/login")}>Login</Button></span>}
-   {httpErrors.isNotConnected && <span>Não conectado ao servidor <Button size="sm" variant="dark" onClick={()=> window.location.reload()}>Recarregar</Button></span>}
-  </>
+   {httpErrors.isUnauthorized && <span className="d-block mt-3">Não autorizado<Button size="sm" variant="dark" onClick={()=> navigate("/login")}>Login</Button></span>}
+   {httpErrors.isNotConnected && <span className="d-block mt-3">Não conectado ao servidor <Button size="sm" variant="dark" onClick={()=> window.location.reload()}>Recarregar</Button></span>}
+  </Container>
  );
 }
 
