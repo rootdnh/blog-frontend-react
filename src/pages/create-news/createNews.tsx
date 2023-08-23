@@ -4,41 +4,43 @@ import { Button, Container, Form } from "react-bootstrap";
 import { useAuth } from "../../context/AuthProvider/authProvider";
 import { categoriesRequest } from "../../services/requests/categoriesRequest";
 import { ICategory } from "../../types/news.types";
+import { IAlert } from "../../types/utils.types";
+import AlertDefault from "../../components/alert/alertDefault";
 
 function CreateNews() {
  const user = useAuth();
  const [categories, setCategories] = useState<ICategory[]>([]);
  const { id } = user;
+ const [showAlert, setShowAlert] = useState<IAlert>({
+  isOpen: false,
+ } as IAlert);
  const controller = useRef<AbortController | null>(null);
  const titleRef = useRef<HTMLInputElement>(null);
  const contentRef = useRef<HTMLTextAreaElement>(null);
  const categoryRef = useRef<HTMLSelectElement>(null);
 
+ const handleHideAlert = () => {
+  setShowAlert({ ...showAlert, isOpen: false });
+ };
+
  const handleForm = (e: FormEvent) => {
   e.preventDefault();
-  console.log(
-   "title",
-   titleRef?.current?.value.trim(),
-   "content",
-   contentRef?.current?.value
-  );
   const signal = controller.current!.signal;
-
   const title = titleRef?.current?.value;
   const content = contentRef?.current?.value;
   const category = categoryRef?.current?.value;
-  console.log("cat", category)
-  if(!category) alert("Selecione uma categoria válida!")
-  
+
+  if (!category) {
+   setShowAlert({
+    isOpen: true,
+    message: "Selecione uma categoria válida",
+    type: "warning",
+   });
+  }
+
   if (title && content && category) {
    const idCategory = +category;
 
-   console.log({
-       idUser: id,
-       title,
-       content,
-       idCategory,
-      })
    createNewsRequest(
     {
      idUser: id,
@@ -49,14 +51,19 @@ function CreateNews() {
     signal
    )
     .then((data) => {
-     console.log(data);
+      setShowAlert({
+       isOpen: true,
+       message: data ? "Noticia criada com sucesso" : (data || "Algo errado com a criação da notícia"),
+       type: data ? "success" : "warning"
+      }); 
     })
     .catch((error) => {
-     console.log(error);
+     setShowAlert({
+      isOpen: true,
+      message: error.message || "Erro inesperado",
+      type: "warning"
+     });
     })
-    .finally(() => {
-     console.log("TERMINOU");
-    });
   }
  };
 
@@ -69,7 +76,6 @@ function CreateNews() {
     console.error(error);
    });
  };
- const handleSelectCategory = (e: ChangeEvent<HTMLSelectElement>) => {};
 
  useEffect(() => {
   controller.current = new AbortController();
@@ -88,7 +94,6 @@ function CreateNews() {
    <Form onSubmit={handleForm}>
     <Form.Group className="mt-3">
      <Form.Select
-      onChange={handleSelectCategory}
       aria-label="Selecione a categoria"
       title="Selecione a categoria"
       ref={categoryRef}
@@ -131,6 +136,12 @@ function CreateNews() {
      Criar
     </Button>
    </Form>
+   <AlertDefault
+    handleHideAlert={handleHideAlert}
+    isOpen={showAlert.isOpen}
+    message={showAlert.message}
+    type={showAlert.type}
+   />
   </Container>
  );
 }
