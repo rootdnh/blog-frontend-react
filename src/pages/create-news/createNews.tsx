@@ -3,7 +3,7 @@ import { createNewsRequest } from "../../services/requests/newsRequest";
 import { Button, Container, Form } from "react-bootstrap";
 import { useAuth } from "../../context/AuthProvider/authProvider";
 import { categoriesRequest } from "../../services/requests/categoriesRequest";
-import { ICategory } from "../../@types/news.types";
+import { ICategory } from "../../types/news.types";
 
 function CreateNews() {
  const user = useAuth();

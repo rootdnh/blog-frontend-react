@@ -1,4 +1,4 @@
-import { IUser } from "../@types/authprovider.types";
+import { IUser } from "../types/authprovider.types";
 
 export function setLocalStorage(key: string, data: object){
   try {

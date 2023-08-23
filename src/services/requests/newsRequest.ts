@@ -1,5 +1,5 @@
 import {api} from "../api";
-import { INews } from "../../@types/news.types";
+import { INews } from "../../types/news.types";
 
 export async function createNewsRequest({idUser, title, content, idCategory}: INews, signal: AbortSignal | null): Promise<INews | null>{
   try {

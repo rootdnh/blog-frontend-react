@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { INews } from "../../@types/news.types";
+import { INews } from "../../types/news.types";
 import { api } from "../../services/api";
 import { Button, Container, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";

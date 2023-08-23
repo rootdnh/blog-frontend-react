@@ -1,5 +1,5 @@
 import { api } from "../api";
-import { ICategory } from "../../@types/news.types";
+import { ICategory } from "../../types/news.types";
 
 export async function categoriesRequest({
  signal,
