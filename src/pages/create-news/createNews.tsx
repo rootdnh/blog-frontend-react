@@ -53,7 +53,7 @@ function CreateNews() {
     .then((data) => {
       setShowAlert({
        isOpen: true,
-       message: data ? "Noticia criada com sucesso" : (data || "Algo errado com a criação da notícia"),
+       message: data ? "Notícia criada com sucesso" : "Algo errado com a criação da notícia",
        type: data ? "success" : "warning"
       }); 
     })

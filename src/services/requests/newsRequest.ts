@@ -1,6 +1,7 @@
 import {api} from "../api";
 import { INews } from "../../types/news.types";
 import { AxiosError } from "axios";
+import ErrorMessages from "../../utils/error.messages";
 
 export async function createNewsRequest({idUser, title, content, idCategory}: INews, signal: AbortSignal | null): Promise<INews | null | Error>{
   try {
@@ -14,14 +15,13 @@ export async function createNewsRequest({idUser, title, content, idCategory}: IN
     },{
       signal
     });
-    if(!data) throw new Error();
     return data;
   } catch (error) {
     if(error instanceof AxiosError){
-      const message = error?.response?.data?.msg ?? "Erro desconhecido";
+      const message = error?.response?.data?.msg ?? ErrorMessages.unknownError;
       console.error("Create news error: ", error);
       throw new Error(message);
     }
-   throw error;
+   throw new Error(ErrorMessages.unknownError);
   } 
 }

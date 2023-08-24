@@ -18,12 +18,17 @@ api.interceptors.request.use((request) => {
 api.interceptors.response.use(
  (response) => response,
  (err) => {
+  const status = err.response?.status;
   if (err instanceof AxiosError) {
-   if (err.response?.status === 401) throw new HttpError("Not authorized", 401);
-   if (err.response?.status === 500 || err?.code === "ERR_NETWORK")
+   if (status === 500 || err?.code === "ERR_NETWORK")
     throw new HttpError("Connection server error", 500);
-   if (err.response?.status === 404) throw new HttpError("Not found", 404);
 
+   switch (status) {
+    case 401:
+     throw new HttpError("Not authorized", 401);
+    case 404:
+     throw new HttpError("Not found", 404);
+   }
    return Promise.reject(err);
   }
  }
