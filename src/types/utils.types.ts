@@ -1,5 +1,5 @@
 export interface IAlert {
-  type: string;
+  type: "warning" | "success" | "danger";
   isOpen: boolean;
   message: string;
  }

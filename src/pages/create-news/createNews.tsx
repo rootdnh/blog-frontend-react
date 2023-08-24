@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { createNewsRequest } from "../../services/requests/newsRequest";
 import { Button, Container, Form } from "react-bootstrap";
 import { useAuth } from "../../context/AuthProvider/authProvider";
@@ -6,6 +6,7 @@ import { categoriesRequest } from "../../services/requests/categoriesRequest";
 import { ICategory } from "../../types/news.types";
 import { IAlert } from "../../types/utils.types";
 import AlertDefault from "../../components/alert/alertDefault";
+import ErrorMessages from "../../utils/error.messages";
 
 function CreateNews() {
  const user = useAuth();
@@ -53,15 +54,15 @@ function CreateNews() {
     .then((data) => {
       setShowAlert({
        isOpen: true,
-       message: data ? "Notícia criada com sucesso" : "Algo errado com a criação da notícia",
-       type: data ? "success" : "warning"
+       message: data ? "Notícia criada com sucesso" : ErrorMessages.unknownError,
+       type: data ? "success" : "danger"
       }); 
     })
     .catch((error) => {
      setShowAlert({
       isOpen: true,
-      message: error.message || "Erro inesperado",
-      type: "warning"
+      message: error.message || ErrorMessages.unknownError,
+      type: "danger"
      });
     })
   }
