@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import { Container, Form } from "react-bootstrap";
 import "animate.css/animate.css";
 import { IAlert } from "../../types/utils.types";
+import ErrorMessages from "../../utils/error.messages";
 
 export function Login() {
  const emailRef = useRef<HTMLInputElement>(null);
@@ -14,14 +15,30 @@ export function Login() {
  const navigate = useNavigate();
  const { authenticate } = useAuth();
 
- const handleForm = async (event: React.FormEvent) => {
+ const handleForm = (event: React.FormEvent) => {
   event.preventDefault();
   const email = emailRef?.current?.value;
   const password = passwordRef?.current?.value;
 
   if (email && password) {
-   const isAuth = await authenticate(email, password);
-   handleAuthentication(isAuth);
+   authenticate(email, password)
+    .then((isAuth) => handleAuthentication(!!isAuth))
+    .catch((error)=>{
+      if(error.status === 400){
+        setShowAlert({
+          type: "warning",
+          isOpen: true,
+          message: ErrorMessages.wrongLogin
+        });
+      }else {
+        setShowAlert({
+          type: "warning",
+          isOpen: true,
+          message: error.message
+        });
+      }
+    })
+   
   }
  };
 
@@ -30,7 +47,7 @@ export function Login() {
    setShowAlert({
     type: "warning",
     isOpen: true,
-    message: "Email ou senha estão incorretos",
+    message: ErrorMessages.unknownErrorLogin,
    });
   } else {
    setShowAlert({
@@ -81,6 +98,7 @@ export function Login() {
     </div>
     <Button as="input" type="submit" className="w-100" value="Entrar" />
    </Form>
+
    {showAlert?.isOpen && (
     <Alert
      style={{ maxWidth: "400px" }}
@@ -92,6 +110,7 @@ export function Login() {
      {showAlert?.message}
     </Alert>
    )}
+   
   </Container>
  );
 }

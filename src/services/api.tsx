@@ -21,13 +21,15 @@ api.interceptors.response.use(
   const status = err.response?.status;
   if (err instanceof AxiosError) {
    if (status === 500 || err?.code === "ERR_NETWORK")
-    throw new HttpError("Connection server error", 500);
+    throw new HttpError("Falha de conexão", 500);
 
    switch (status) {
     case 401:
-     throw new HttpError("Not authorized", 401);
+     throw new HttpError("Não autorizado", 401);
     case 404:
-     throw new HttpError("Not found", 404);
+     throw new HttpError("Não encontrado", 404);
+    case 400:
+      throw new HttpError("Erro nos campos de entrada", 400); 
    }
    return Promise.reject(err);
   }

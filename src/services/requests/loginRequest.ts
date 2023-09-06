@@ -6,7 +6,7 @@ try{
   return response.data;
   }catch(error){
     console.error("Error when trying to login", error)
-    return null;
+    throw error;
   }
 }
 

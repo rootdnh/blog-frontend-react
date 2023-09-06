@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { INews } from "../../types/news.types";
 import { api } from "../../services/api";
 import {
@@ -11,6 +11,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ErrorMessages from "../../utils/error.messages";
+import { useAuth } from "../../context/AuthProvider/authProvider";
+import News from "../../components/news/news";
 
 function Home() {
  const [news, setNews] = useState<INews[]>([]);
@@ -25,6 +27,7 @@ function Home() {
  const [showToast, setShowToast] = useState<boolean>(false);
  const controller = useRef<AbortController | null>(null);
  const navigate = useNavigate();
+ const {isAuthenticated} = useAuth();
 
  function getNews(signal: AbortSignal) {
   api
@@ -33,12 +36,16 @@ function Home() {
     setNews(response.data.msg);
    })
    .catch((error) => {
-    if (error.status === 500)
-     setHttpErrors({ ...httpErrors, isNotConnected: true });
-    if (error.status === 401)
-     setHttpErrors({ ...httpErrors, isUnauthorized: true });
     console.error(error);
-    setShowToast(true);
+
+    if (error.status === 500) {
+     setHttpErrors({ ...httpErrors, isNotConnected: true });
+     setShowToast(true);
+    } 
+    if (error.status === 401) {
+     setHttpErrors({ ...httpErrors, isUnauthorized: true });
+     setShowToast(true);
+    } 
    })
    .finally(() => {
     setIsLoading(false);
@@ -58,10 +65,10 @@ function Home() {
   <Container>
    <ToastContainer className="p-3" position="top-end" style={{ zIndex: 1 }}>
     <Toast
-     bg="Light"
+     bg="light"
      onClose={() => setShowToast(false)}
      show={showToast}
-     delay={3000}
+     delay={3500}
      autohide
     >
      <Toast.Header>
@@ -74,26 +81,23 @@ function Home() {
     </Toast>
    </ToastContainer>
 
-   {news?.length > 0 &&
-    news.map((data) => (
-     <div key={data.title}>
-      <h5>{data.title}</h5>
-      <p>{data.content}</p>
-     </div>
-    ))}
+   {news?.length > 0 && isAuthenticated() &&  <News news={news}/>}
+
    {isLoading && <Spinner size="sm" />}
-   {httpErrors.isUnauthorized && (
+   
+   {(httpErrors.isUnauthorized || !isAuthenticated()) && (
     <span className="d-block mt-3">
      Não autorizado
-     <Button size="sm" variant="dark" onClick={() => navigate("/login")}>
+     <Button className="mx-2" size="sm" variant="dark" onClick={() => navigate("/login")}>
       Login
      </Button>
     </span>
    )}
+   
    {httpErrors.isNotConnected && (
     <span className="d-block mt-3">
      Não conectado ao servidor
-     <Button size="sm" variant="dark" onClick={() => window.location.reload()}>
+     <Button className="mx-2" size="sm" variant="dark" onClick={() => window.location.reload()}>
       Recarregar
      </Button>
     </span>

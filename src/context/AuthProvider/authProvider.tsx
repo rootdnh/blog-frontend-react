@@ -19,23 +19,29 @@ export function AuthProvider({children}: IAuthProvider): React.JSX.Element {
     });
     }, [])
 
-  async function authenticate(email: string, password: string){
-    const response = await LoginRequest(email, password);
-    const avatar = response?.avatar?.url || null;
-    if(response) {
-      setUser({...response, avatar});
-      const toSaveInLocal = {
-        id: response.id,
-        email: response.email,
-        token: response.token,
-        avatar
+    async function authenticate(email: string, password: string): Promise<boolean> {
+      try {
+        const response = await LoginRequest(email, password);
+        const avatar = response?.avatar?.url || null;
+    
+        if (response) {
+          setUser({ ...response, avatar });
+          const toSaveInLocal = {
+            id: response.id,
+            email: response.email,
+            token: response.token,
+            avatar,
+          };
+          setLocalStorage("@utk", toSaveInLocal);
+          return true; 
+        } 
+        return false; 
+      } catch (error) {
+        console.error(error);
+        throw error; 
       }
-      setLocalStorage("@utk", toSaveInLocal);
-      return true;
-    }else{
-      return false
     }
-  }
+    
 
   async function logout(){
     setLocalStorage("@utk",{});
