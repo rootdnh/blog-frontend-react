@@ -3,3 +3,8 @@ export interface IAlert {
   isOpen: boolean;
   message: string;
  }
+
+ export interface IMenuLinks {
+  path: string,
+  name: string
+ }

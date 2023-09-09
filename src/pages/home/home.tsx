@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { INews } from "../../types/news.types";
 import { api } from "../../services/api";
 import {
@@ -8,7 +8,6 @@ import {
  ToastContainer,
  Toast,
 } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ErrorMessages from "../../utils/error.messages";
 import { useAuth } from "../../context/AuthProvider/authProvider";
@@ -17,16 +16,13 @@ import News from "../../components/news/news";
 function Home() {
  const [news, setNews] = useState<INews[]>([]);
  const [httpErrors, setHttpErrors] = useState<{
-  isNotConnected: boolean;
-  isUnauthorized: boolean;
+  isNotConnected: boolean
  }>({
-  isNotConnected: false,
-  isUnauthorized: false,
+  isNotConnected: false
  });
  const [isLoading, setIsLoading] = useState<boolean>(true);
  const [showToast, setShowToast] = useState<boolean>(false);
  const controller = useRef<AbortController | null>(null);
- const navigate = useNavigate();
  const {isAuthenticated} = useAuth();
 
  function getNews(signal: AbortSignal) {
@@ -41,11 +37,9 @@ function Home() {
     if (error.status === 500) {
      setHttpErrors({ ...httpErrors, isNotConnected: true });
      setShowToast(true);
-    } 
-    if (error.status === 401) {
-     setHttpErrors({ ...httpErrors, isUnauthorized: true });
-     setShowToast(true);
-    } 
+    return;
+    }
+    
    })
    .finally(() => {
     setIsLoading(false);
@@ -76,23 +70,15 @@ function Home() {
      </Toast.Header>
      <Toast.Body>
       {httpErrors.isNotConnected && ErrorMessages.notConnected}
-      {httpErrors.isUnauthorized && ErrorMessages.notAuthorized}
      </Toast.Body>
     </Toast>
    </ToastContainer>
 
    {news?.length > 0 && isAuthenticated() &&  <News news={news}/>}
 
+   {news?.length <= 0 && !httpErrors.isNotConnected && <span>Nenhuma notícia encontrada :) </span>}
+
    {isLoading && <Spinner size="sm" />}
-   
-   {(httpErrors.isUnauthorized || !isAuthenticated()) && (
-    <span className="d-block mt-3">
-     Não autorizado
-     <Button className="mx-2" size="sm" variant="dark" onClick={() => navigate("/login")}>
-      Login
-     </Button>
-    </span>
-   )}
    
    {httpErrors.isNotConnected && (
     <span className="d-block mt-3">
@@ -102,6 +88,7 @@ function Home() {
      </Button>
     </span>
    )}
+
   </Container>
  );
 }
