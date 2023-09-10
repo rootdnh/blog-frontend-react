@@ -1,60 +1,58 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Link } from "react-router-dom";
 import defaultAvatar from "../../assets/avatarDefault.png";
 import { useAuth } from "../../context/AuthProvider/authProvider";
 import config from "../../config/config";
 import { Image } from "react-bootstrap";
 import { menuLinks } from "./menuItems";
-import { useState } from "react";
-
+import { LinkContainer } from "react-router-bootstrap";
 
 function Header() {
  const url = config.baseUrl;
  const { email, avatar, isAuthenticated, logout } = useAuth();
- const [showMobileMenu, setShowMobileMenu] = useState(false);
- const menuTemp = {...menuLinks};
+ const menuTemp = { ...menuLinks };
 
- if(isAuthenticated()){
+ if (isAuthenticated()) {
   delete menuTemp.login;
- }else {
+ } else {
   delete menuTemp.logout;
  }
  const menuItems = Object.entries(menuTemp);
- 
+
  const LinkStyle = {
   textDecoration: "none",
   color: "white",
   padding: "10px",
  };
- 
- const handleMenuClose = (key: string) => {
-  if(key == "logout") logout();
-  setShowMobileMenu(!showMobileMenu)
- }
 
  return (
   <Navbar
    expand="lg"
-   expanded={showMobileMenu}
+   collapseOnSelect
    data-bs-theme="dark"
    style={{ backgroundColor: "rgb(36, 41, 47)" }}
+   sticky="top"
   >
    <Container>
     <Navbar.Brand href="/">BLOG</Navbar.Brand>
-    <Navbar.Toggle onClick={() => setShowMobileMenu(!showMobileMenu)} aria-controls="basic-navbar-nav" />
+    <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
      <Nav className="ms-auto">
       {menuItems.map(([key, item]) => {
        return (
-        <Link  onClick={()=> handleMenuClose(key)}
-          style={LinkStyle} key={key} to={item.path}>
-         {item.name}
-        </Link>
-       )})
-      }
-
+        <LinkContainer style={LinkStyle} key={key} to={item.path}>
+         <Nav.Link
+          key={key}
+          onClick={() => {
+           if (key === "logout") return logout();
+          }}
+         >
+          {item.name}
+         </Nav.Link>
+        </LinkContainer>
+       );
+      })}
      </Nav>
     </Navbar.Collapse>
    </Container>

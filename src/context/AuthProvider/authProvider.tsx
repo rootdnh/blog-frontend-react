@@ -5,7 +5,7 @@ import { getLocalStorage, setLocalStorage } from "../../utils/localStorageManage
 const AuthContext = createContext<IContext>({} as IContext);
 import { api } from "../../services/api";
 
-export function AuthProvider({children}: IAuthProvider): React.JSX.Element {
+export function AuthProvider({children}: IAuthProvider) {
   const [user, setUser] = useState<IUser | null>(null);
 
   useEffect(()=>{

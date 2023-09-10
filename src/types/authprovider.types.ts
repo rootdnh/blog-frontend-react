@@ -15,5 +15,5 @@ export interface IContext extends IUser{
 }
 
 export interface IAuthProvider {
-  children: React.JSX.Element;
+  children: React.ReactNode;
 }

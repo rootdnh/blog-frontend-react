@@ -10,7 +10,6 @@ import {
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ErrorMessages from "../../utils/error.messages";
-import { useAuth } from "../../context/AuthProvider/authProvider";
 import News from "../../components/news/news";
 
 function Home() {
@@ -23,7 +22,6 @@ function Home() {
  const [isLoading, setIsLoading] = useState<boolean>(true);
  const [showToast, setShowToast] = useState<boolean>(false);
  const controller = useRef<AbortController | null>(null);
- const {isAuthenticated} = useAuth();
 
  function getNews(signal: AbortSignal) {
   api
@@ -57,7 +55,7 @@ function Home() {
 
  return (
   <Container>
-   <ToastContainer className="p-3" position="top-end" style={{ zIndex: 1 }}>
+   <ToastContainer className="p-3" position="top-end" style={{ zIndex: 9999 }}>
     <Toast
      bg="light"
      onClose={() => setShowToast(false)}
@@ -74,10 +72,10 @@ function Home() {
     </Toast>
    </ToastContainer>
 
-   {news?.length > 0 && isAuthenticated() &&  <News news={news}/>}
+   {news?.length > 0 &&  <News news={news}/>}
 
    {news?.length <= 0 && !httpErrors.isNotConnected && <span>Nenhuma notícia encontrada :) </span>}
-
+  
    {isLoading && <Spinner size="sm" />}
    
    {httpErrors.isNotConnected && (

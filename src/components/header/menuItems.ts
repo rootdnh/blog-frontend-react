@@ -15,7 +15,7 @@ export const menuLinks: Record<string, IMenuLinks> = {
   },
   login: {
    path: "/login",
-   name: "Logar"
+   name: "Entrar"
   },
   logout: {
    path: "/",
