@@ -1,4 +1,6 @@
 import { INews } from "../../types/news.types";
+import * as S from "./news.styles";
+
 
 function News({news}: {news: INews[]}) {
   
@@ -6,7 +8,7 @@ function News({news}: {news: INews[]}) {
   return (
     <>
       {news.length > 0 && news.map((item) => (
-        <h2 key={item.id}>{item.content}</h2>
+        <S.ContainerLink to={`/news:${item.slug}`} key={item.id}>{item.content}</S.ContainerLink>
       ))}
     </>
   )

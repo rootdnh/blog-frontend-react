@@ -11,5 +11,6 @@ export interface INews{
   idUser?: string;
   idCategory?: number;
   token?: string;
+  slug?: string;
   category?: ICategory
 }
