@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export const ContainerLink = styled(Link)`
-  width: 100%;
-  background-color: gray;
-  height: auto;
+
+export const MyLink = styled(Link)`
+  position: relative;
+  text-decoration: none;
+  color: black;
+  padding: 20px;
 `;

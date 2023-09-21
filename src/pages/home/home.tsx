@@ -25,17 +25,17 @@ function Home() {
 
  function getNews(signal: AbortSignal) {
   api
-   .get<{ msg: INews[] }>("/get-posts", { signal })
+   .get("/get-posts", { signal })
    .then((response) => {
-    setNews(response.data.msg);
+    setNews(response.data);
    })
    .catch((error) => {
     console.error(error);
 
-    if (error.status === 500) {
-     setHttpErrors({ ...httpErrors, isNotConnected: true });
-     setShowToast(true);
-    return;
+    if(error.status === 500){
+      setHttpErrors({ ...httpErrors, isNotConnected: true });
+      setShowToast(true);
+      return;
     }
     
    })

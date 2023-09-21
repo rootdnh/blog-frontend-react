@@ -2,6 +2,7 @@ export default  {
   themeName: "dark",
 
   colors: {
-    primary: "#212529"
+    primary: "#020817",
+    secondary: "#212529"
   }
 }
