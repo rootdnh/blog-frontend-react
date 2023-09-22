@@ -3,7 +3,16 @@ import * as S from "./news.styles";
 import Card from 'react-bootstrap/Card';
 
 function News({ news }: { news: INews[] }) {
- return (
+
+  const limitText = (text: string, limit: number) =>{
+    const arrText = text.split("");
+    
+    if(arrText.length <= limit) return text;
+
+    return arrText.splice(0, limit).join("") + "...";
+    
+  }
+  return (
   <>
    {news.length > 0 &&
     news.map((item) => (
@@ -11,7 +20,7 @@ function News({ news }: { news: INews[] }) {
       <Card>
       <Card.Header as="h5">{item.title}</Card.Header>
       <Card.Body>
-        <Card.Text>{item.content}</Card.Text>
+        <Card.Text>{limitText(item.content!, 250)}</Card.Text>
       </Card.Body>
     </Card>
      </S.MyLink>

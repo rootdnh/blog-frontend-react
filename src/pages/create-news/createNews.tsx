@@ -90,7 +90,7 @@ function CreateNews() {
  }, []);
 
  return (
-  <Container className="mt-4">
+  <Container style={{minHeight: '80vh'}} className="mt-4">
    <h1>Criar nova notícia</h1>
    <Form onSubmit={handleForm}>
     <Form.Group className="mt-3">

@@ -19,6 +19,7 @@ function NewsDetails() {
    .get(`/get-post/${slug}`, { signal: controller.current.signal })
    .then((response) => {
     setNews(response.data);
+    document.title = response.data.title;
    })
    .catch((error) => {
     setError(true);
@@ -37,10 +38,8 @@ function NewsDetails() {
    {!error &&  
    <S.Container>
     <h1>{news?.title}</h1>
-    <p>{news?.content} </p>
-   
-  
-     <span>Criado por: {news?.user?.name}, em {news?.createdAt ? format(new Date(news?.createdAt), 'dd/MM/yyyy') : "Data não informada"}</span>
+    <p style={{whiteSpace: "pre-wrap"}}>{news?.content} </p>
+     <span><b>Criado por: </b><i>{news?.user?.name}</i><b>, em</b> <i>{news?.createdAt ? format(new Date(news?.createdAt), 'dd/MM/yyyy') : "Data não informada"}</i></span>
    </S.Container>
    }
   </>

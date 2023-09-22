@@ -45,6 +45,7 @@ function Home() {
  useEffect(() => {
   controller.current = new AbortController();
   getNews(controller.current.signal);
+  document.title = "BLOG"
 
   return () => {
    if (controller?.current) controller.current.abort();

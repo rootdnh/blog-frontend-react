@@ -26,7 +26,7 @@ function AlertDefault({ type, isOpen, message, handleHideAlert }: AlertProps) {
  return (
   <>
    {open && (
-    <Alert className="m-3 animate__animated animate__fadeIn" variant={type}>
+    <Alert className="mt-3 animate__animated animate__fadeIn" variant={type}>
      {message}
     </Alert>
    )}
