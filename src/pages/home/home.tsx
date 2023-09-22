@@ -4,14 +4,12 @@ import { api } from "../../services/api";
 import {
  Button,
  Container,
- Spinner,
  ToastContainer,
- Toast,
+ Toast
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import ErrorMessages from "../../utils/error.messages";
+import NewsSkeleton from "../../components/news-skeleton/newsSkeleton";
 import News from "../../components/news/news";
-import HttpError from "../../utils/HttpError";
 
 function Home() {
  const [news, setNews] = useState<INews[]>([]);
@@ -55,6 +53,7 @@ function Home() {
 
  return (
   <Container>
+    {/* remove toast of here */}
    <ToastContainer className="p-3" position="top-end" style={{ zIndex: 9999 }}>
     <Toast
      bg="light"
@@ -72,7 +71,7 @@ function Home() {
     </Toast>
    </ToastContainer>
 
-   {isLoading && <Spinner size="sm" />}
+   {isLoading && <NewsSkeleton/>}
 
    {news?.length > 0 &&  <News news={news}/>}
 
