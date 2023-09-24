@@ -72,14 +72,12 @@ function Home() {
     </Toast>
    </ToastContainer>
 
-   {isLoading && <NewsSkeleton/>}
+   {news?.length <= 0 && isLoading && <NewsSkeleton/>}
 
    {news?.length > 0 &&  <News news={news}/>}
 
    {news?.length <= 0 && !isLoading && !httpErrors.error && <span>Nenhuma notícia encontrada :) </span>}
-  
-   
-   
+    
    {httpErrors.error && (
     <span className="d-block mt-3">
      {httpErrors.message}
