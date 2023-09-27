@@ -1,24 +1,31 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import Dropdown from 'react-bootstrap/Dropdown';
+import NavItem from 'react-bootstrap/NavItem';
+import NavLink from 'react-bootstrap/NavLink';
 import defaultAvatar from "../../assets/avatarDefault.png";
 import { useAuth } from "../../context/AuthProvider/authProvider";
 import config from "../../config/config";
 import { Image } from "react-bootstrap";
 import { menuLinks } from "./menuItems";
 import { LinkContainer } from "react-router-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Header() {
  const url = config.baseUrl;
  const { email, avatar, isAuthenticated, logout } = useAuth();
- const menuTemp = { ...menuLinks };
+ const navigate = useNavigate();
 
- if (isAuthenticated()) {
-  delete menuTemp.login;
- } else {
-  delete menuTemp.logout;
- }
- const menuItems = Object.entries(menuTemp);
+ const menuTemp = Object.entries(menuLinks).filter(([key, item])=>{
+  if (key === 'login' && isAuthenticated()) {
+    return false;
+  } 
+  if(key === 'logout' && !isAuthenticated()) {
+   return false;
+  }
+  return item;
+ })
 
  const LinkStyle = {
   textDecoration: "none",
@@ -26,6 +33,17 @@ function Header() {
   padding: "10px",
  };
 
+ enum dropdownItems  {
+  posts = '/management/posts',
+  category = '/management/category',
+  users = '/management/users'
+ }
+
+ type DropdownItems = keyof typeof dropdownItems;
+
+ const handleDropdownSelect = (eventKey: DropdownItems) =>{
+  navigate(dropdownItems[eventKey]);
+ }
  return (
   <Navbar
    expand="lg"
@@ -39,11 +57,13 @@ function Header() {
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
      <Nav className="ms-auto">
-      {menuItems.map(([key, item]) => {
+      {menuTemp.map(([key, item]) => {
+       if(item.visible === true){
        return (
         <LinkContainer style={LinkStyle} key={key} to={item.path}>
          <Nav.Link
           key={key}
+          active={true}
           onClick={() => {
            if (key === "logout") return logout();
           }}
@@ -51,8 +71,18 @@ function Header() {
           {item.name}
          </Nav.Link>
         </LinkContainer>
-       );
+       )};
       })}
+     </Nav>
+     <Nav onSelect={handleDropdownSelect}>
+     <Dropdown as={NavItem}>
+      <Dropdown.Toggle className="text-white" as={NavLink}>Gerenciar</Dropdown.Toggle>
+      <Dropdown.Menu>
+        <Dropdown.Item eventKey="posts">Posts</Dropdown.Item>
+        <Dropdown.Item eventKey="category">Categoria</Dropdown.Item>
+        <Dropdown.Item eventKey="users">Usuário</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
      </Nav>
     </Navbar.Collapse>
    </Container>

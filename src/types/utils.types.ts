@@ -6,5 +6,6 @@ export interface IAlert {
 
  export interface IMenuLinks {
   path: string,
-  name: string
+  name: string,
+  visible: boolean
  }
