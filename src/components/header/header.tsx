@@ -1,9 +1,9 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import Dropdown from 'react-bootstrap/Dropdown';
-import NavItem from 'react-bootstrap/NavItem';
-import NavLink from 'react-bootstrap/NavLink';
+import Dropdown from "react-bootstrap/Dropdown";
+import NavItem from "react-bootstrap/NavItem";
+import NavLink from "react-bootstrap/NavLink";
 import defaultAvatar from "../../assets/avatarDefault.png";
 import { useAuth } from "../../context/AuthProvider/authProvider";
 import config from "../../config/config";
@@ -17,15 +17,15 @@ function Header() {
  const { email, avatar, isAuthenticated, logout } = useAuth();
  const navigate = useNavigate();
 
- const menuTemp = Object.entries(menuLinks).filter(([key, item])=>{
-  if (key === 'login' && isAuthenticated()) {
-    return false;
-  } 
-  if(key === 'logout' && !isAuthenticated()) {
+ const menuTemp = Object.entries(menuLinks).filter(([key, item]) => {
+  if (key === "login" && isAuthenticated()) {
+   return false;
+  }
+  if (key === "logout" && !isAuthenticated()) {
    return false;
   }
   return item;
- })
+ });
 
  const LinkStyle = {
   textDecoration: "none",
@@ -33,17 +33,6 @@ function Header() {
   padding: "10px",
  };
 
- enum dropdownItems  {
-  posts = '/management/posts',
-  category = '/management/category',
-  users = '/management/users'
- }
-
- type DropdownItems = keyof typeof dropdownItems;
-
- const handleDropdownSelect = (eventKey: DropdownItems) =>{
-  navigate(dropdownItems[eventKey]);
- }
  return (
   <Navbar
    expand="lg"
@@ -58,32 +47,48 @@ function Header() {
     <Navbar.Collapse id="basic-navbar-nav">
      <Nav className="ms-auto">
       {menuTemp.map(([key, item]) => {
-       if(item.visible === true){
-       return (
-        <LinkContainer style={LinkStyle} key={key} to={item.path}>
-         <Nav.Link
-          key={key}
-          active={true}
-          onClick={() => {
-           if (key === "logout") return logout();
-          }}
-         >
-          {item.name}
-         </Nav.Link>
-        </LinkContainer>
-       )};
+       if (item.visible === true) {
+        return (
+         <LinkContainer style={LinkStyle} key={key} to={item.path}>
+          <Nav.Link
+           key={key}
+           active={true}
+           onClick={() => {
+            if (key === "logout") return logout();
+           }}
+          >
+           {item.name}
+          </Nav.Link>
+         </LinkContainer>
+        );
+       }
       })}
      </Nav>
-     <Nav onSelect={handleDropdownSelect}>
+
      <Dropdown as={NavItem}>
-      <Dropdown.Toggle className="text-white" as={NavLink}>Gerenciar</Dropdown.Toggle>
+      <Dropdown.Toggle className="text-white" as={NavLink}>
+       Gerenciar
+      </Dropdown.Toggle>
       <Dropdown.Menu>
-        <Dropdown.Item eventKey="posts">Posts</Dropdown.Item>
-        <Dropdown.Item eventKey="category">Categoria</Dropdown.Item>
-        <Dropdown.Item eventKey="users">Usuário</Dropdown.Item>
+       <Dropdown.Item>
+        <LinkContainer to={"management/posts"}>
+         <Nav.Link>Posts</Nav.Link>
+        </LinkContainer>
+       </Dropdown.Item>
+
+       <Dropdown.Item>
+        <LinkContainer to={"management/category"}>
+         <Nav.Link>Categoria</Nav.Link>
+        </LinkContainer>
+       </Dropdown.Item>
+
+       <Dropdown.Item>
+        <LinkContainer to={"management/user"}>
+         <Nav.Link>Usuário</Nav.Link>
+        </LinkContainer>
+       </Dropdown.Item>
       </Dropdown.Menu>
-    </Dropdown>
-     </Nav>
+     </Dropdown>
     </Navbar.Collapse>
    </Container>
    <div

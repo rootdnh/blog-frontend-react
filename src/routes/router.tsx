@@ -6,7 +6,9 @@ import CreateNews from "../pages/create-news/createNews";
 import {ProtectedRoute} from "../components/protected-route/protectedRoute";
 import NotFound from "../pages/not found/notFound";
 import NewsDetails from "../pages/news-details/newsDetails.tsx";
-import { Management } from "../pages/management/management.tsx";
+import { PostManagement } from "../pages/management/posts-management/postManagement.tsx";
+import { CategoryManagement } from "../pages/management/category-management/categoryManagement.tsx";
+import { UserManagement } from "../pages/management/user-management/userManagement.tsx";
 
 const router = createBrowserRouter([
   {
@@ -34,8 +36,16 @@ const router = createBrowserRouter([
         element: <Home/>
       },
       {
-        path: "/management/:item",
-        element: <Management/>
+        path: "/management/posts",
+        element: <ProtectedRoute><PostManagement/></ProtectedRoute>
+      },
+      {
+        path: "/management/category",
+        element: <ProtectedRoute><CategoryManagement/></ProtectedRoute>
+      },
+      {
+        path: "/management/user",
+        element: <ProtectedRoute><UserManagement/></ProtectedRoute>
       },
       {
         path: "*",
