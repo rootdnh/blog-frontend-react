@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { INews } from "../../types/news.types";
 import { api } from "../../services/api";
 import Pagination from "react-bootstrap/Pagination";
@@ -33,7 +33,7 @@ function Home() {
  const {page} = useParams();
  const navigate = useNavigate();
 
- function getNews(page = 1) {
+ const getNews = useCallback((page = 1)=>{
   //duplicate setLoading because using .finally method don't work the logic
   //in !isLoading below, just in ms, but isn't cool
   api
@@ -51,7 +51,7 @@ function Home() {
     setShowToast(true);
     setIsLoading(false);
    });
- }
+ }, [controller, setHttpErrors, setShowToast, setIsLoading, setNews])
 
  const changePage = (page: number) =>{
   navigate(`/page/${page}`);
@@ -84,7 +84,7 @@ function Home() {
  }, []);
 
  return (
-  <Container className="d-flex flex-column" style={{minHeight: "90vh"}}>
+  <Container className="d-flex flex-column" style={{minHeight: "93vh"}}>
    {/* remove toast of here */}
    <ToastContainer className="p-3" position="top-end" style={{ zIndex: 9999 }}>
     <Toast

@@ -16,7 +16,7 @@ function CreateNews() {
   isOpen: false,
  } as IAlert);
  const controller = useRef<AbortController | null>(null);
- const titleRef = useRef<HTMLInputElement>(null);
+ const titleRef = useRef<HTMLInputElement | null>(null);
  const contentRef = useRef<HTMLTextAreaElement>(null);
  const categoryRef = useRef<HTMLSelectElement>(null);
 
@@ -56,7 +56,11 @@ function CreateNews() {
        isOpen: true,
        message: data ? "Notícia criada com sucesso" : ErrorMessages.unknownError,
        type: data ? "success" : "danger"
-      }); 
+      });
+      
+      titleRef.current!.value = "";
+      contentRef.current!.value = "";
+      categoryRef.current!.value = "";
     })
     .catch((error) => {
      setShowAlert({
