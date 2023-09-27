@@ -19,6 +19,7 @@ api.interceptors.request.use((request) => {
 api.interceptors.response.use(
  (response) => response,
  (err) => {
+  console.error("API ERROR", err)
   const status = err.response?.status;
 
   if (
