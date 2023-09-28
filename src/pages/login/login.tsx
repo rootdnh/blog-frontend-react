@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthProvider/authProvider";
+import { useAuth } from "../../context/AuthContext/authProvider";
 import Button from "react-bootstrap/Button";
 import { Container, Form } from "react-bootstrap";
 import "animate.css/animate.css";

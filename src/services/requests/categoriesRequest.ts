@@ -10,7 +10,7 @@ export async function categoriesRequest({
   const response = await api.get("/get-categories", {
    signal,
   });
-  if (!response) throw new Error();
+  if (!response) throw new Error("Error when trying to get categories");
   const {data} = response.data
   return data;
  } catch (error) {

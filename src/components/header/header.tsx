@@ -5,7 +5,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import NavItem from "react-bootstrap/NavItem";
 import NavLink from "react-bootstrap/NavLink";
 import defaultAvatar from "../../assets/avatarDefault.png";
-import { useAuth } from "../../context/AuthProvider/authProvider";
+import { useAuth } from "../../context/AuthContext/authProvider";
 import config from "../../config/config";
 import { Image } from "react-bootstrap";
 import { menuLinks } from "./menuItems";
