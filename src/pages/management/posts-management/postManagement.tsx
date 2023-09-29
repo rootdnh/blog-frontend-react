@@ -50,8 +50,15 @@ export function PostManagement() {
 
  const handleDelete = (confirmed: boolean, id: number) => {
   if(confirmed && id){
-  //api.get(`/delete-post/${id}`).then((response)=>{})
-  setShowToast({open: true, message: `Post com id ${id} excluido com sucesso`})
+  api.delete(`/delete-post/${id}`).then((response)=>{
+    if(response.data.id){
+      setShowToast({open: true, message: `Post com id ${id} excluido com sucesso`})
+      getData();
+    }
+  })
+  .catch((err)=>{
+    setShowToast({open: true, message: err.message})
+  })
   setShowModal(false);
   }
 }
@@ -67,6 +74,11 @@ export function PostManagement() {
   <>
    <ModalToConfirm modalProps={modalProps!} modalState={showModal} callback={handleDelete} closeModal={()=> setShowModal(false)}/>
    <StandardToast showToast={showToast.open} closeToast={()=> setShowToast({...showToast, open: false})} message={showToast.message}/>
+   <S.Container style={{textAlign: "center"}}>
+    <S.Title>Título</S.Title>
+    <S.Title>Conteúdo</S.Title>
+    <S.Title>Ações</S.Title>
+   </S.Container>
    {posts?.length > 0 &&
     posts?.map((post) => {
      return (

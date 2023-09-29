@@ -1,23 +1,26 @@
-import {styled} from "styled-components";
-
+import { styled } from "styled-components";
 
 export const Container = styled.div`
-  display: grid;
-  grid-template-columns: 40% 40% 20%;
-  width: 100%;
-  border: 1px solid black;
-  margin-top: 10px;
-  height: 40px;
-  align-items: center;
+ display: grid;
+ grid-template-columns: 40% 40% 20%;
+ width: 100%;
+ border: 1px solid black;
+ margin-top: 10px;
+ height: 40px;
+ align-items: center;
 `;
 
 export const Title = styled.span`
-  padding: 10px;
-  height: 100%; 
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  border-right: 1px solid black;
+ padding: 10px;
+ height: 100%;
+ overflow: hidden;
+ white-space: nowrap;
+ text-overflow: ellipsis;
+ border-right: 1px solid black;
+
+ &:last-child {
+  border-right: none;
+ }
 `;
 
 export const ButtonsContainer = styled.div`
