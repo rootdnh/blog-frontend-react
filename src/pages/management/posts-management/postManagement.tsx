@@ -9,12 +9,14 @@ import * as S from "./postManagement.styles";
 import { LinkContainer } from "react-router-bootstrap";
 import { ModalToConfirm } from "../../../components/modal-to-confirm/modalToConfirm";
 import {api} from "../../../services/api";
+import { StandardToast } from "../../../components/toast/toast";
 
 export function PostManagement() {
  const [posts, setPosts] = useState<INews[]>([]);
  const controller = useRef<AbortController | null>(null);
  const [showModal, setShowModal] = useState(false)
  const [modalProps, setModalPros] = useState<{id: number, title: string}>();
+ const [showToast, setShowToast] = useState<{open: boolean, message: string}>({open: false, message: ""});
 
  const getData = () => {
   genericRequest<{ posts: INews[] }>({
@@ -49,6 +51,7 @@ export function PostManagement() {
  const handleDelete = (confirmed: boolean, id: number) => {
   if(confirmed && id){
   //api.get(`/delete-post/${id}`).then((response)=>{})
+  setShowToast({open: true, message: `Post com id ${id} excluido com sucesso`})
   setShowModal(false);
   }
 }
@@ -63,7 +66,7 @@ export function PostManagement() {
  return (
   <>
    <ModalToConfirm modalProps={modalProps!} modalState={showModal} callback={handleDelete} closeModal={()=> setShowModal(false)}/>
-   
+   <StandardToast showToast={showToast.open} closeToast={()=> setShowToast({...showToast, open: false})} message={showToast.message}/>
    {posts?.length > 0 &&
     posts?.map((post) => {
      return (
