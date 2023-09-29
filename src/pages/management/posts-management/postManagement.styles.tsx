@@ -33,6 +33,10 @@ export const ButtonsContainer = styled.div`
    
 }
 
+#delete {
+  background-color: #df0909
+}
+
 svg {
   position: relative;                                                                                                                                                  ative;
   left: 50%;

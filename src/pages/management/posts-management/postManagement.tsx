@@ -7,10 +7,13 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import * as S from "./postManagement.styles";
 import { LinkContainer } from "react-router-bootstrap";
+import { ModalToConfirm } from "../../../components/modal-to-confirm/modalToConfirm";
 
 export function PostManagement() {
  const [posts, setPosts] = useState<INews[]>([]);
  const controller = useRef<AbortController | null>(null);
+ const [showModal, setShowModal] = useState(false)
+ const [modalProps, setModalPros] = useState<{id: number, title: string}>();
 
  const getData = () => {
   genericRequest<{ posts: INews[] }>({
@@ -23,9 +26,11 @@ export function PostManagement() {
   });
  };
 
- const deletePost = (id: number | undefined) => {
-  if (id) {
-   //implements delete
+ const deletePost = (id: number | undefined, title: string | undefined) => {
+  if (id && title) {
+   console.log(">>", id, title);
+   setModalPros({id, title});
+   setShowModal(true)
   }
  };
 
@@ -41,6 +46,11 @@ export function PostManagement() {
   </Tooltip>
  );
 
+ const handleDelete = (confirmed: boolean) => {
+    
+    setShowModal(false);
+}
+
  useEffect(() => {
   controller.current = new AbortController();
   getData();
@@ -50,6 +60,8 @@ export function PostManagement() {
 
  return (
   <>
+   <ModalToConfirm modalProps={modalProps!} modalState={showModal} callback={handleDelete} closeModal={()=> setShowModal(false)}/>
+   
    {posts?.length > 0 &&
     posts?.map((post) => {
      return (
@@ -66,10 +78,11 @@ export function PostManagement() {
         </OverlayTrigger>
 
         <OverlayTrigger placement="top" overlay={tooltipDelete}>
-         <Button onClick={() => deletePost(post?.id)} variant="dark">
+         <Button id="delete" onClick={() => deletePost(post?.id, post?.title)} variant="dark">
           <SlTrash />
          </Button>
         </OverlayTrigger>
+
        </S.ButtonsContainer>
       </S.Container>
      );
