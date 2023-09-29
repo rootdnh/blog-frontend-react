@@ -2,10 +2,11 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { INews } from "../../types/news.types";
 import { api } from "../../services/api";
 import Pagination from "react-bootstrap/Pagination";
-import { Button, Container, ToastContainer, Toast } from "react-bootstrap";
+import { Button, Container} from "react-bootstrap";
 import NewsSkeleton from "../../components/news-skeleton/newsSkeleton";
 import News from "../../components/news/news";
 import { useNavigate, useParams } from "react-router-dom";
+import { StandardToast } from "../../components/toast/toast";
 
 interface NewsProps {
  posts: INews[];
@@ -85,21 +86,7 @@ function Home() {
 
  return (
   <Container className="d-flex flex-column" style={{minHeight: "93vh"}}>
-   {/* remove toast of here */}
-   <ToastContainer className="p-3" position="top-end" style={{ zIndex: 9999 }}>
-    <Toast
-     bg="light"
-     onClose={() => setShowToast(false)}
-     show={showToast}
-     delay={3500}
-     autohide
-    >
-     <Toast.Header>
-      <strong className="me-auto">Aviso</strong>
-     </Toast.Header>
-     <Toast.Body>{httpErrors.error && httpErrors.message}</Toast.Body>
-    </Toast>
-   </ToastContainer>
+   <StandardToast showToast={showToast} message={httpErrors.message} closeToast={()=> setShowToast(false)}/>
 
    {news.posts?.length <= 0 && isLoading && <NewsSkeleton />}
 

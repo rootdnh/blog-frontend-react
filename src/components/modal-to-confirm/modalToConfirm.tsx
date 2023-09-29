@@ -5,7 +5,7 @@ import { useEffect } from "react";
 type ModalProps = {
  modalState: boolean;
  closeModal: () => void;
- callback: (confirmed: boolean) => void;
+ callback: (confirmed: boolean, id: number) => void;
  modalProps: {
   id: number;
   title: string;
@@ -18,8 +18,10 @@ export function ModalToConfirm({
  closeModal,
  callback,
 }: ModalProps) {
+
+
  const handleConfirm = () => {
-  callback(true);
+  callback(true, modalProps.id);
  };
 
  useEffect(() => {

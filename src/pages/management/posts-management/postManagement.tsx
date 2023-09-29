@@ -8,6 +8,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 import * as S from "./postManagement.styles";
 import { LinkContainer } from "react-router-bootstrap";
 import { ModalToConfirm } from "../../../components/modal-to-confirm/modalToConfirm";
+import {api} from "../../../services/api";
 
 export function PostManagement() {
  const [posts, setPosts] = useState<INews[]>([]);
@@ -28,7 +29,6 @@ export function PostManagement() {
 
  const deletePost = (id: number | undefined, title: string | undefined) => {
   if (id && title) {
-   console.log(">>", id, title);
    setModalPros({id, title});
    setShowModal(true)
   }
@@ -46,9 +46,11 @@ export function PostManagement() {
   </Tooltip>
  );
 
- const handleDelete = (confirmed: boolean) => {
-    
-    setShowModal(false);
+ const handleDelete = (confirmed: boolean, id: number) => {
+  if(confirmed && id){
+  //api.get(`/delete-post/${id}`).then((response)=>{})
+  setShowModal(false);
+  }
 }
 
  useEffect(() => {
