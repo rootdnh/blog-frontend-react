@@ -9,6 +9,9 @@ import NewsDetails from "../pages/news-details/newsDetails.tsx";
 import { PostManagement } from "../pages/management/posts-management/postManagement.tsx";
 import { CategoryManagement } from "../pages/management/category-management/categoryManagement.tsx";
 import { UserManagement } from "../pages/management/user-management/userManagement.tsx";
+import { PostEdit } from "../pages/management/posts-management/post-edit/postEdit.tsx";
+import { UserEdit } from "../pages/management/user-management/user-edit/userEdit.tsx";
+import { CategoryEdit } from "../pages/management/category-management/category-edit/categoryEdit.tsx";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +41,18 @@ const router = createBrowserRouter([
       {
         path: "/management/posts",
         element: <ProtectedRoute><PostManagement/></ProtectedRoute>
+      },
+      {
+        path: "/management/posts/edit/:postId",
+        element: <ProtectedRoute><PostEdit/></ProtectedRoute>
+      },
+      {
+        path: "/management/category/edit/:categoryId",
+        element: <ProtectedRoute><CategoryEdit/></ProtectedRoute>
+      },
+      {
+        path: "/management/user/edit/:userId",
+        element: <ProtectedRoute><UserEdit/></ProtectedRoute>
       },
       {
         path: "/management/category",

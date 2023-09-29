@@ -10,12 +10,10 @@ import config from "../../config/config";
 import { Image } from "react-bootstrap";
 import { menuLinks } from "./menuItems";
 import { LinkContainer } from "react-router-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
 
 function Header() {
  const url = config.baseUrl;
  const { email, avatar, isAuthenticated, logout } = useAuth();
- const navigate = useNavigate();
 
  const menuTemp = Object.entries(menuLinks).filter(([key, item]) => {
   if (key === "login" && isAuthenticated()) {
