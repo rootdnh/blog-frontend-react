@@ -43,7 +43,7 @@ const router = createBrowserRouter([
         element: <ProtectedRoute><PostManagement/></ProtectedRoute>
       },
       {
-        path: "/management/posts/edit/:postId",
+        path: "/management/posts/edit/:postSlug",
         element: <ProtectedRoute><PostEdit/></ProtectedRoute>
       },
       {

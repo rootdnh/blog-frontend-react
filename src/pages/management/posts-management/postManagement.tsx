@@ -88,7 +88,7 @@ export function PostManagement() {
        <S.ButtonsContainer>
         <OverlayTrigger placement="top" overlay={tooltipEdit}>
          <Button variant="dark">
-          <LinkContainer to={`/management/posts/edit/${post.id}`}>
+          <LinkContainer to={`/management/posts/edit/${post.slug}`}>
            <SlPencil />
           </LinkContainer>
          </Button>

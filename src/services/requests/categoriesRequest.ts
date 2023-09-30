@@ -1,19 +1,14 @@
 import { api } from "../api";
 import { ICategory } from "../../types/news.types";
 
-export async function categoriesRequest({
- signal,
-}: {
- signal: AbortSignal;
-}): Promise<ICategory[] | null> {
+export async function categoriesRequest({signal}: {signal: AbortSignal | undefined}): Promise<ICategory[] | null> {
  try {
   const response = await api.get("/get-categories", {
    signal,
   });
-  if (!response) throw new Error("Error when trying to get categories");
-  const {data} = response.data
-  return data;
+  return response.data.data || null;
  } catch (error) {
-  return null;
+    console.error(error);
+    throw error;
  }
 }

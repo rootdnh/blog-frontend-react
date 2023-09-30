@@ -22,6 +22,9 @@ function Header() {
   if (key === "logout" && !isAuthenticated()) {
    return false;
   }
+  if(key === "createNews" && !isAuthenticated()){
+    return false;
+  }
   return item;
  });
 
@@ -62,7 +65,7 @@ function Header() {
        }
       })}
      </Nav>
-
+    {isAuthenticated() &&
      <Dropdown as={NavItem}>
       <Dropdown.Toggle className="text-white" as={NavLink}>
        Gerenciar
@@ -87,6 +90,7 @@ function Header() {
        </Dropdown.Item>
       </Dropdown.Menu>
      </Dropdown>
+     }
     </Navbar.Collapse>
    </Container>
    <div
