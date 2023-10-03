@@ -41,6 +41,7 @@ export function PostEdit() {
  const handleHideAlert = () => {
   setShowAlert({ ...showAlert, isOpen: false });
  };
+
  const getCategories = () => {
   categoriesRequest({ signal: controller?.current?.signal })
    .then((response) => {
@@ -78,11 +79,12 @@ export function PostEdit() {
     }, {
       signal: controller?.current?.signal
     })
-      .then((response)=>{
-        console.log(response.data);
+      .then(()=>{
+        setShowAlert({type: "success", message: "Notícia atualizada com sucesso" , isOpen: true });
       })
       .catch((err)=>{
-        console.error(err)
+        setShowAlert({type: "danger", message: err.message , isOpen: true });
+        console.error(err);
       })
   }
  }
@@ -134,7 +136,7 @@ export function PostEdit() {
        as="textarea"
        placeholder={post.content}
        aria-description="Atualizar conteúdo da notícia" 
-      style={{minHeight: "250px"}}
+       style={{minHeight: "200px"}}
        maxLength={2000}
        required
       />

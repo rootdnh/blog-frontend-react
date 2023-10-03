@@ -80,6 +80,7 @@ export function PostManagement() {
     <S.Title>Categoria</S.Title>
     <S.Title>Ações</S.Title>
    </S.Container>
+   {posts.length <= 0 && <S.Container style={{textAlign: "center"}}>Nenhuma notícia encontrada...</S.Container>}
    {posts?.length > 0 &&
     posts?.map((post) => {
      return (
