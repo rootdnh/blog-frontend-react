@@ -74,7 +74,8 @@ export function PostManagement() {
   <>
    <ModalToConfirm modalProps={modalProps!} modalState={showModal} callback={handleDelete} closeModal={()=> setShowModal(false)}/>
    <StandardToast showToast={showToast.open} closeToast={()=> setShowToast({...showToast, open: false})} message={showToast.message}/>
-   <S.Container style={{textAlign: "center"}}>
+   <h1 className="m-3">Gerenciamento de posts<br/></h1>
+   <S.Container  className="mb-5 post-header" style={{textAlign: "center", maxHeight: "3rem"}}>
     <S.Title>Título</S.Title>
     <S.Title>Conteúdo</S.Title>
     <S.Title>Categoria</S.Title>

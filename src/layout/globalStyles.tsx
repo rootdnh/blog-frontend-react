@@ -7,4 +7,8 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }  
 
+  :root {
+    --dark-color:  rgb(36, 41, 47)
+  }
+
 `;
