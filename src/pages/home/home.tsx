@@ -87,17 +87,9 @@ function Home() {
  return (
   <Container className="d-flex flex-column" style={{minHeight: "93vh"}}>
    <StandardToast showToast={showToast} message={httpErrors.message} closeToast={()=> setShowToast(false)}/>
-
-   {news.posts?.length <= 0 && isLoading && <NewsSkeleton />}
-
-   {news.posts?.length > 0 && <News news={news.posts} />}
-
-   {news.posts?.length <= 0 && !isLoading && !httpErrors.error && (
-    <span>Nenhuma notícia encontrada :) </span>
-   )}
-
+   
    {httpErrors.error && (
-    <span className="d-block mt-3">
+    <span className="d-block m-3">
      {httpErrors.message}
      <Button
       className="mx-2"
@@ -108,6 +100,14 @@ function Home() {
       Recarregar
      </Button>
     </span>
+   )}
+
+   {news.posts?.length <= 0 && isLoading && <NewsSkeleton />}
+
+   {news.posts?.length > 0 && <News news={news.posts} />}
+
+   {news.posts?.length <= 0 && !isLoading && !httpErrors.error && (
+    <span>Nenhuma notícia encontrada :) </span>
    )}
 
    {news.posts?.length >= 0 && (
