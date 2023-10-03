@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { createNewsRequest } from "../../services/requests/newsRequest";
 import { Button, Container, Form } from "react-bootstrap";
 import { useAuth } from "../../context/AuthContext/authProvider";
-import { categoriesRequest } from "../../services/requests/categoriesRequest";
+import { categoriesRequest } from "../../services/requests/getCategoriesRequest";
 import { ICategory } from "../../types/news.types";
 import { IAlert } from "../../types/utils.types";
 import AlertDefault from "../../components/alert/alertDefault";

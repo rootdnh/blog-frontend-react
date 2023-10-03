@@ -5,16 +5,17 @@ function NewsSkeleton() {
  return (
   <>
    {Array.from({ length: 5 }).map((_, idx) => (
-    <Card style={{marginTop: '20px'}} key={idx}>
+    <Card style={{marginTop: '20px'}} key={`item-${idx}1`}>
      <Card.Header as="h5">
-      <Placeholder as="p" animation="glow">
-       <Placeholder xs={12} />
+      <Placeholder as="span" animation="glow">
+        <Placeholder as="span" xs={12} />
       </Placeholder>
      </Card.Header>
      <Card.Body>
       <Card.Text>
-       <Placeholder as="p" animation="glow">
-        <Placeholder xs={12} />
+       <Placeholder as="span" animation="glow">
+       <Placeholder as="span" xs={12} />
+
        </Placeholder>
       </Card.Text>
      </Card.Body>

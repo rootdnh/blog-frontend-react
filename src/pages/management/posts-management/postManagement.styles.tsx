@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 
 export const Container = styled.div`
  display: grid;
- grid-template-columns: 40% 40% 20%;
+ grid-template-columns: repeat(3, 1fr) 15%;
  width: 100%;
  border: 1px solid black;
  margin-top: 10px;
@@ -33,8 +33,13 @@ export const ButtonsContainer = styled.div`
    display: block;
    height: 2em;
    aspect-ratio: 1;
-   
-}
+  }
+
+  a {                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+   display: block;
+   height: 2em;
+   aspect-ratio: 1;
+  }
 
 #delete {
   background-color: #df0909

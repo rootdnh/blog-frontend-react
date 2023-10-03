@@ -77,6 +77,7 @@ export function PostManagement() {
    <S.Container style={{textAlign: "center"}}>
     <S.Title>Título</S.Title>
     <S.Title>Conteúdo</S.Title>
+    <S.Title>Categoria</S.Title>
     <S.Title>Ações</S.Title>
    </S.Container>
    {posts?.length > 0 &&
@@ -85,13 +86,14 @@ export function PostManagement() {
       <S.Container key={post.id}>
        <S.Title>{post.title}</S.Title>
        <S.Title>{post.content}</S.Title>
+       <S.Title>{post.category?.name}</S.Title>
        <S.ButtonsContainer>
         <OverlayTrigger placement="top" overlay={tooltipEdit}>
-         <Button variant="dark">
           <LinkContainer to={`/management/posts/edit/${post.slug}`}>
-           <SlPencil />
+           <Button variant="dark">
+            <SlPencil />
+           </Button>
           </LinkContainer>
-         </Button>
         </OverlayTrigger>
 
         <OverlayTrigger placement="top" overlay={tooltipDelete}>
