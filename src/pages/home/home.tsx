@@ -7,12 +7,7 @@ import NewsSkeleton from "../../components/news-skeleton/newsSkeleton";
 import News from "../../components/news/news";
 import { useNavigate, useParams } from "react-router-dom";
 import { StandardToast } from "../../components/toast/toast";
-
-interface NewsProps {
- posts: INews[];
- maxPages: number;
- actualPage: number
-}
+import {NewsProps} from "../../types/news.types";
 
 function Home() {
  const [news, setNews] = useState<NewsProps>({

@@ -18,3 +18,9 @@ export interface INews {
   category?: ICategory;
   user?: IUser
 }
+
+export interface NewsProps {
+  posts: INews[];
+  maxPages: number;
+  actualPage: number
+ }
