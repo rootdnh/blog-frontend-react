@@ -28,7 +28,6 @@ export const Title = styled.span`
 
  &:last-child {
   border-right: none;
-
  }
  @media screen and (max-width: 530px){
   padding: 5px;

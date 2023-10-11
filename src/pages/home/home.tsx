@@ -111,8 +111,8 @@ function Home() {
       let page = idx + 1;
       return <Pagination.Item 
         onClick={() => changePage(page)} 
-        key={`page-${idx}`}
-        active={news.actualPage === (page)}
+        key={`pagination-${page}`}
+        active={news.actualPage === page}
         >{page}</Pagination.Item>;
      })}
     </Pagination>

@@ -54,6 +54,7 @@ export function PostEdit() {
    });
  };
 
+ //more one useEffect to use a skeleton until loading
  useEffect(() => {
   controller.current = new AbortController();
   getPost();
@@ -140,7 +141,7 @@ export function PostEdit() {
        maxLength={2000}
        required
       />
-      <Form.Text>O título deve conter no maximo 2000 caracteres.</Form.Text>
+      <Form.Text>O corpo da notícia deve conter no maximo 2000 caracteres.</Form.Text>
      </Form.Group>
      <Button type="submit" className="sm w-100 mt-4" variant="dark">
       Atualizar

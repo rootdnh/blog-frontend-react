@@ -131,11 +131,11 @@ function CreateNews() {
       ref={contentRef}
       as="textarea"
       placeholder="Conteúdo da notícia"
-      aria-description="cadastro do título da notícia"
+      aria-description="cadastro do conteúdo da notícia"
       maxLength={2000}
       required
      />
-     <Form.Text>O título deve conter no maximo 2000 caracteres.</Form.Text>
+     <Form.Text>O corpo da notícia deve conter no maximo 2000 caracteres.</Form.Text>
     </Form.Group>
     <Button type="submit" className="sm w-100 mt-4" variant="dark">
      Criar
