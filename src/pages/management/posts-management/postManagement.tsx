@@ -12,12 +12,16 @@ import { api } from "../../../services/api";
 import { StandardToast } from "../../../components/toast/toast";
 import { Pagination } from "react-bootstrap";
 import { Container } from "react-bootstrap";
-
+import EditSkeleton from "../../../components/edit-pages-skeleton/editSkeleton";
 
 export function PostManagement() {
- const [posts, setPosts] = useState<{items: INews[], maxPages: number}>({items: [], maxPages: 0});
+ const [posts, setPosts] = useState<{ items: INews[]; maxPages: number }>({
+  items: [],
+  maxPages: 0,
+ });
  const controller = useRef<AbortController | null>(null);
  const [showModal, setShowModal] = useState(false);
+ const [isLoading, setIsLoading] = useState(true);
  const [currentPage, setCurrentPage] = useState(1);
  const [modalProps, setModalPros] = useState<{ id: number; title: string }>();
  const [showToast, setShowToast] = useState<{ open: boolean; message: string }>(
@@ -31,15 +35,19 @@ export function PostManagement() {
   }).then((response) => {
    if (response?.posts) {
     setPosts({items: response.posts, maxPages: response.maxPages });
+    setIsLoading(false);
    }
+  })
+  .finally(()=>{
+    setIsLoading(false);
   });
  };
 
- useEffect(()=>{
+ useEffect(() => {
   controller.current = new AbortController();
   getData();
-  return ()=> controller.current?.abort();
- }, [currentPage])
+  return () => controller.current?.abort();
+ }, [currentPage]);
 
  const deletePost = (id: number | undefined, title: string | undefined) => {
   if (id && title) {
@@ -104,67 +112,73 @@ export function PostManagement() {
     Gerenciamento de posts
     <br />
    </h1>
-   <Container className="d-flex flex-column relative" style={{minHeight: "80vh"}}>
-   <S.Container
-    className="mb-5 post-header"
-    style={{ textAlign: "center", maxHeight: "3rem"}}
+   <Container
+    className="d-flex flex-column relative"
+    style={{ minHeight: "80vh" }}
    >
-    <S.Title>Título</S.Title>
-    <S.Title>Conteúdo</S.Title>
-    <S.Title>Categoria</S.Title>
-    <S.Title>Ações</S.Title>
-   </S.Container>
-   {posts.items?.length <= 0 && (
-    <S.Container style={{ textAlign: "center" }}>
-     Nenhuma notícia encontrada...
+    <S.Container
+     className="mb-5 post-header"
+     style={{ textAlign: "center", maxHeight: "3rem" }}
+    >
+     <S.Title>Título</S.Title>
+     <S.Title>Conteúdo</S.Title>
+     <S.Title>Categoria</S.Title>
+     <S.Title>Ações</S.Title>
     </S.Container>
-   )}
-   {posts.items?.length > 0 &&
-    posts.items?.map((post) => {
-     return (
-      <S.Container key={post.id}>
-       <S.Title>{post.title}</S.Title>
-       <S.Title>{post.content}</S.Title>
-       <S.Title>{post.category?.name}</S.Title>
-       <S.ButtonsContainer>
-        <OverlayTrigger placement="top" overlay={tooltipEdit}>
-         <LinkContainer to={`/management/posts/edit/${post.slug}`}>
-          <Button variant="dark">
-           <SlPencil />
+    {posts.items?.length <= 0 &&
+     isLoading &&
+     [...Array(10)].map((_, idx) => (
+      <S.SkeletonContainer key={`skeleton-${idx}`}>
+       <EditSkeleton />
+      </S.SkeletonContainer>
+     ))}
+    {posts.items?.length <= 0 && !isLoading && (
+     <S.Container>Nenhuma notícia encontrada...</S.Container>
+    )}
+    {posts.items?.length > 0 && !isLoading &&
+     posts.items?.map((post) => {
+      return (
+       <S.Container key={post.id}>
+        <S.Title>{post.title}</S.Title>
+        <S.Title>{post.content}</S.Title>
+        <S.Title>{post.category?.name}</S.Title>
+        <S.ButtonsContainer>
+         <OverlayTrigger placement="top" overlay={tooltipEdit}>
+          <LinkContainer to={`/management/posts/edit/${post.slug}`}>
+           <Button variant="dark">
+            <SlPencil />
+           </Button>
+          </LinkContainer>
+         </OverlayTrigger>
+
+         <OverlayTrigger placement="top" overlay={tooltipDelete}>
+          <Button
+           id="delete"
+           onClick={() => deletePost(post?.id, post?.title)}
+           variant="dark"
+          >
+           <SlTrash />
           </Button>
-         </LinkContainer>
-        </OverlayTrigger>
+         </OverlayTrigger>
+        </S.ButtonsContainer>
+       </S.Container>
+      );
+     })}
 
-        <OverlayTrigger placement="top" overlay={tooltipDelete}>
-         <Button
-          id="delete"
-          onClick={() => deletePost(post?.id, post?.title)}
-          variant="dark"
-         >
-          <SlTrash />
-         </Button>
-        </OverlayTrigger>
-       </S.ButtonsContainer>
-      </S.Container>
-         
-
-     );
-    })}
-
-   <Pagination className="d-flex justify-content-center relative mt-auto pt-3">
-    {Array.from({length: posts.maxPages}).map((_, idx)=>{
+    <Pagination className="d-flex justify-content-center relative mt-auto pt-3">
+     {Array.from({ length: posts.maxPages }).map((_, idx) => {
       let page = idx + 1;
       return (
-      <Pagination.Item 
-        onClick={()=> setCurrentPage(page)}
+       <Pagination.Item
+        onClick={() => setCurrentPage(page)}
         active={currentPage === page}
-        key={`pagination-${page}`} >
-      {page}
-      </Pagination.Item>)
-
-      })
-    }
-   </Pagination>
+        key={`pagination-${page}`}
+       >
+        {page}
+       </Pagination.Item>
+      );
+     })}
+    </Pagination>
    </Container>
   </>
  );

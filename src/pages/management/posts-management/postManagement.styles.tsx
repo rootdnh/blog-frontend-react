@@ -10,12 +10,21 @@ export const Container = styled.div`
  height: 2.5rem;
  justify-content: center;
  align-items: center;
- 
 
-
- @media screen and (max-width: 530px){
+ @media screen and (max-width: 530px) {
   height: auto;
  }
+`;
+
+export const SkeletonContainer = styled.div`
+ display: block;
+ width: 100%;
+ border: 1px solid gray;
+ border-radius: 10px;
+ margin-top: 10px;
+ height: 2.5rem;
+ text-align: center;
+ padding: 5px
 `;
 
 export const Title = styled.span`
@@ -29,12 +38,11 @@ export const Title = styled.span`
  &:last-child {
   border-right: none;
  }
- @media screen and (max-width: 530px){
+ @media screen and (max-width: 530px) {
   padding: 5px;
   max-height: 5rem;
   white-space: normal;
   text-overflow: none;
-
  }
 `;
 
