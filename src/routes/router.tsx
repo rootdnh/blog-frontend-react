@@ -12,6 +12,7 @@ import { UserManagement } from "../pages/management/user-management/userManageme
 import { PostEdit } from "../pages/management/posts-management/post-edit/postEdit.tsx";
 import { UserEdit } from "../pages/management/user-management/user-edit/userEdit.tsx";
 import { CategoryEdit } from "../pages/management/category-management/category-edit/categoryEdit.tsx";
+import { Search } from "../pages/search/search.tsx";
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
       {
         path: "/management/user",
         element: <ProtectedRoute><UserManagement/></ProtectedRoute>
+      },
+      {
+        path: "/search/:query",
+        element: <Search/>
       },
       {
         path: "*",

@@ -10,8 +10,11 @@ import config from "../../config/config";
 import { Image } from "react-bootstrap";
 import { menuLinks } from "./menuItems";
 import { LinkContainer } from "react-router-bootstrap";
+import { SearchBar } from "../searchBar/searchBar";
+
 
 function Header() {
+  //need a refactor
  const url = config.baseUrl;
  const { email, avatar, isAuthenticated, logout } = useAuth();
 
@@ -45,7 +48,8 @@ function Header() {
    <Container>
     <Navbar.Brand href="/">BLOG</Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
-    <Navbar.Collapse id="basic-navbar-nav">
+    <Navbar.Collapse id="basic-navbar-nav" className="caollapse">
+    <SearchBar />
      <Nav className="ms-auto">
       {menuTemp.map(([key, item]) => {
        if (item.visible === true) {
