@@ -64,7 +64,7 @@ const router = createBrowserRouter([
         element: <ProtectedRoute><UserManagement/></ProtectedRoute>
       },
       {
-        path: "/search/:query",
+        path: "/search",
         element: <Search/>
       },
       {

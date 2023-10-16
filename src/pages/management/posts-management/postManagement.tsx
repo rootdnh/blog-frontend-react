@@ -13,6 +13,7 @@ import { StandardToast } from "../../../components/toast/toast";
 import { Pagination } from "react-bootstrap";
 import { Container } from "react-bootstrap";
 import EditSkeleton from "../../../components/edit-pages-skeleton/editSkeleton";
+import { useLocation } from "react-router-dom";
 
 export function PostManagement() {
  const [posts, setPosts] = useState<{ items: INews[]; maxPages: number }>({
