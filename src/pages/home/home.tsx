@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { INews } from "../../types/news.types";
 import { api } from "../../services/api";
 import Pagination from "react-bootstrap/Pagination";
 import { Button, Container} from "react-bootstrap";

@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { createNewsRequest } from "../../services/requests/newsRequest";
+import { createNewsRequest } from "../../services/requests/createNewsRequest";
 import { Button, Container, Form } from "react-bootstrap";
 import { useAuth } from "../../context/AuthContext/authProvider";
 import { categoriesRequest } from "../../services/requests/getCategoriesRequest";
