@@ -6,5 +6,4 @@ export const MyLink = styled(Link)`
   position: relative;
   text-decoration: none;
   color: black;
-  padding: 20px;
 `;
