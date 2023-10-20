@@ -23,14 +23,14 @@ export function SearchBar() {
     id="form-search"
     ref={searchRef} 
     type="text" 
-    placeholder="Buscar" 
+    placeholder="Pesquise uma notícia..." 
     onKeyUp={(e)=> (e.key === "Enter") ? handleSearch() : null}
    />
    <Button 
     className="mx-2" 
     onClick={handleSearch} 
     variant="outline-light"
-   >Search</Button>
+   >Buscar</Button>
 
   </S.SearchBarContainer>
  );

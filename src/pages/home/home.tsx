@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { api } from "../../services/api";
 import Pagination from "react-bootstrap/Pagination";
-import { Button, Container} from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import NewsSkeleton from "../../components/news-skeleton/newsSkeleton";
 import News from "../../components/news/news";
 import { useNavigate, useParams } from "react-router-dom";
 import { StandardToast } from "../../components/toast/toast";
-import {NewsProps} from "../../types/news.types";
+import { NewsProps } from "../../types/news.types";
+import { DefaultPagination } from "../../components/pagination/defaultPagination";
 
 function Home() {
  const [news, setNews] = useState<NewsProps>({
   posts: [],
   maxPages: 0,
-  actualPage: 1
+  actualPage: 1,
  } as NewsProps);
 
  const [httpErrors, setHttpErrors] = useState<{
@@ -25,53 +26,56 @@ function Home() {
  const [isLoading, setIsLoading] = useState<boolean>(true);
  const [showToast, setShowToast] = useState<boolean>(false);
  const controller = useRef<AbortController | null>(null);
- const {page} = useParams();
+ const { page } = useParams();
  const navigate = useNavigate();
 
- const getNews = useCallback((page = 1)=>{
-  //duplicate setLoading because using .finally method don't work the logic
-  //in !isLoading below, just in ms, but isn't cool
-  api
-   .get(`/get-posts?page=${page}`, { signal: controller.current?.signal })
-   .then((response) => {
-    const { maxPages, posts } = response.data;
-    setNews((prev) => {
-     return { ...prev, posts, maxPages };
-    });
-    setIsLoading(false);
-   })
-   .catch((error) => {
-    console.error(error);
-    setHttpErrors({ error: true, message: error.message });
-    setShowToast(true);
-    setIsLoading(false);
-   });
- }, [controller, setHttpErrors, setShowToast, setIsLoading, setNews])
-
- const changePage = (page: number) =>{
-  navigate(`/page/${page}`);
- }
- 
- useEffect(()=>{
-  if(page){
-    setNews((prev)=>{
-      return {...prev, actualPage: +page}
+ const getNews = useCallback(
+  (page = 1) => {
+   //duplicate setLoading because using .finally method don't work the logic
+   //in !isLoading below, just in ms, but isn't cool
+   api
+    .get(`/get-posts?page=${page}`, { signal: controller.current?.signal })
+    .then((response) => {
+     const { maxPages, posts } = response.data;
+     setNews((prev) => {
+      return { ...prev, posts, maxPages };
+     });
+     setIsLoading(false);
     })
+    .catch((error) => {
+     console.error(error);
+     setHttpErrors({ error: true, message: error.message });
+     setShowToast(true);
+     setIsLoading(false);
+    });
+  },
+  [controller, setHttpErrors, setShowToast, setIsLoading, setNews]
+ );
 
-    controller.current = new AbortController();
-    getNews(+page);
+ const changePage = (page: number) => {
+  navigate(`/page/${page}`);
+ };
+
+ useEffect(() => {
+  if (page) {
+   setNews((prev) => {
+    return { ...prev, actualPage: +page };
+   });
+
+   controller.current = new AbortController();
+   getNews(+page);
   }
 
   return () => {
-    if (controller?.current) controller.current.abort();
-   };
- }, [page])
+   if (controller?.current) controller.current.abort();
+  };
+ }, [page]);
 
  useEffect(() => {
-  if(!page){
-    controller.current = new AbortController();
-    getNews();
-    document.title = "BLOG";
+  if (!page) {
+   controller.current = new AbortController();
+   getNews();
+   document.title = "BLOG";
   }
   return () => {
    if (controller?.current) controller.current.abort();
@@ -79,9 +83,13 @@ function Home() {
  }, []);
 
  return (
-  <Container className="d-flex flex-column" style={{minHeight: "93vh"}}>
-   <StandardToast showToast={showToast} message={httpErrors.message} closeToast={()=> setShowToast(false)}/>
-   
+  <Container className="d-flex flex-column" style={{ minHeight: "93vh" }}>
+   <StandardToast
+    showToast={showToast}
+    message={httpErrors.message}
+    closeToast={() => setShowToast(false)}
+   />
+
    {httpErrors.error && (
     <span className="d-block m-3">
      {httpErrors.message}
@@ -105,16 +113,11 @@ function Home() {
    )}
 
    {news.posts?.length >= 0 && (
-    <Pagination className="d-flex justify-content-center relative mt-auto">
-     {Array.from({ length: news.maxPages }).map((_, idx) => {
-      let page = idx + 1;
-      return <Pagination.Item 
-        onClick={() => changePage(page)} 
-        key={`pagination-${page}`}
-        active={news.actualPage === page}
-        >{page}</Pagination.Item>;
-     })}
-    </Pagination>
+    <DefaultPagination
+     changePage={changePage}
+     maxPages={news.maxPages}
+     actualPage={news.actualPage}
+    />
    )}
   </Container>
  );
